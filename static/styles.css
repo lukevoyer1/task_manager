@@ -113,22 +113,41 @@ body.night-mode h2 {
   /* Ensure inputs don't exceed their container */
 }
 
-/* Fix for date input field width */
+/* Fix for date input field width - specifically targeting Android Chrome */
 input[type="date"] {
-  width: 100% !important;
-  min-width: 100% !important;
-  box-sizing: border-box !important;
+  width: 100%;
+  min-width: 100%;
+  box-sizing: border-box;
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
-  display: block !important;
-  flex: 1 1 100% !important;
 }
 
-/* Create a wrapper div for the date input if needed */
-.date-input-wrapper {
+/* Android Chrome specific fix */
+@supports (-webkit-touch-callout: none) {
+  input[type="date"] {
+    width: 100% !important;
+    min-width: 100% !important;
+    max-width: 100% !important;
+  }
+}
+
+/* Another approach for Android Chrome */
+@media screen and (-webkit-min-device-pixel-ratio: 0) {
+  input[type="date"] {
+    width: 100% !important;
+  }
+}
+
+/* Create a wrapper for date input that ensures full width */
+.date-wrapper {
+  display: flex;
   width: 100%;
-  display: block;
+}
+
+.date-wrapper input[type="date"] {
+  flex: 1;
+  width: 100%;
 }
 
 .form button {
@@ -379,10 +398,18 @@ body.night-mode button.delete {
     border-bottom: 1px solid #e0e0e0;
   }
 
-  /* Responsive tweaks for date input */
+  /* Mobile-specific fixes for date inputs */
   input[type="date"] {
     width: 100% !important;
     max-width: 100% !important;
+  }
+
+  /* Android Chrome specific fix */
+  @supports (-webkit-touch-callout: none) {
+    input[type="date"] {
+      width: 100% !important;
+      min-width: 100% !important;
+    }
   }
 
   /* Widen the Status column to improve layout*/
