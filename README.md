@@ -74,14 +74,7 @@ This application provides a user-friendly interface for creating, updating, and 
    ```bash
    pip install Flask Flask-SQLAlchemy
 
-5. **Initialize the Database:**
-
-   Run the application (this step typically creates the necessary database tables):
-
-   ```bash
-   python app.py
-
-6. **Run the Application:**
+5. **Run the Application:**
 
    ```bash
    python app.py
