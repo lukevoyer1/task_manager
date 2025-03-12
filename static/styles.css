@@ -27,7 +27,7 @@ body.night-mode {
   /* Dark Mode Variables */
   --primary-color: #383838;
   /* Dark mode primary */
-  --primary-hover-color: #2196f3;
+  --primary-hover-color: #1976d2;
   --secondary-color: #988b82;
   --background-color: #242424;
   /* Offset dark gray background */
@@ -326,4 +326,39 @@ body.night-mode .task-card h3 {
   font-family: "Roboto", sans-serif;
   font-size: 18px;
   font-weight: 500;
+}
+
+/* Night Mode Toggle */
+.night-mode-toggle {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background-color: var(--primary-color);
+  color: var(--on-primary-color);
+  border: none;
+  border-radius: 50%;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: var(--shadow);
+  transition: background-color 0.3s, transform 0.3s;
+  z-index: 1000; /* Ensure it's above other elements */
+}
+
+body.night-mode .night-mode-toggle {
+  background-color: var(--background-color);
+  color: var(--on-background-color);
+}
+
+/* Hover effect for the night mode toggle button */
+.night-mode-toggle:hover {
+  background-color: var(--primary-hover-color);
+  transform: scale(1.1);
+}
+
+body:not(.night-mode) .night-mode-toggle:hover {
+  background-color: var(--primary-color);
 }
