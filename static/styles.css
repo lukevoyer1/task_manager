@@ -113,41 +113,43 @@ body.night-mode h2 {
   /* Ensure inputs don't exceed their container */
 }
 
-/* Fix for date input field width - specifically targeting Android Chrome */
-input[type="date"] {
+/* Custom date input container */
+.date-input-container {
   width: 100%;
-  min-width: 100%;
-  box-sizing: border-box;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
+  position: relative;
 }
 
-/* Android Chrome specific fix */
-@supports (-webkit-touch-callout: none) {
-  input[type="date"] {
-    width: 100% !important;
-    min-width: 100% !important;
-    max-width: 100% !important;
-  }
-}
-
-/* Another approach for Android Chrome */
-@media screen and (-webkit-min-device-pixel-ratio: 0) {
-  input[type="date"] {
-    width: 100% !important;
-  }
-}
-
-/* Create a wrapper for date input that ensures full width */
-.date-wrapper {
-  display: flex;
+/* Custom date input styling */
+.date-input {
   width: 100%;
+  padding: 12px;
+  border: 1px solid var(--secondary-color);
+  border-radius: var(--border-radius);
+  font-size: 16px;
+  background-color: var(--surface-color);
+  color: var(--on-surface-color);
 }
 
-.date-wrapper input[type="date"] {
-  flex: 1;
-  width: 100%;
+/* Ensure Flatpickr calendar is styled properly */
+.flatpickr-calendar {
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow);
+}
+
+/* Dark mode styling for Flatpickr */
+body.night-mode .flatpickr-calendar {
+  background-color: var(--surface-color);
+  color: var(--on-surface-color);
+  border-color: var(--secondary-color);
+}
+
+body.night-mode .flatpickr-day {
+  color: var(--on-surface-color);
+}
+
+body.night-mode .flatpickr-day.selected {
+  background-color: var(--primary-color);
+  color: var(--on-primary-color);
 }
 
 .form button {
@@ -396,20 +398,6 @@ body.night-mode button.delete {
   tbody td {
     padding: 8px;
     border-bottom: 1px solid #e0e0e0;
-  }
-
-  /* Mobile-specific fixes for date inputs */
-  input[type="date"] {
-    width: 100% !important;
-    max-width: 100% !important;
-  }
-
-  /* Android Chrome specific fix */
-  @supports (-webkit-touch-callout: none) {
-    input[type="date"] {
-      width: 100% !important;
-      min-width: 100% !important;
-    }
   }
 
   /* Widen the Status column to improve layout*/
