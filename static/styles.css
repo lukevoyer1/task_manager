@@ -1,8 +1,13 @@
+/* Material You–Inspired Theme with Softer Contrasts and Shadows */
 :root {
+  /* Day Mode Settings */
   --primary-color: #2196f3;
+  /* Material Blue */
   --primary-hover-color: #1976d2;
+  /* Darker Material Blue for hover */
   --secondary-color: #625b71;
   --background-color: #f5f5f5;
+  /* Offset light gray background */
   --surface-color: #ffffff;
   --on-primary-color: #ffffff;
   --on-secondary-color: #ffffff;
@@ -18,10 +23,13 @@
 }
 
 body.night-mode {
+  /* Dark Mode Variables */
   --primary-color: #383838;
+  /* Dark mode primary */
   --primary-hover-color: #2196f3;
   --secondary-color: #988b82;
   --background-color: #242424;
+  /* Offset dark gray background */
   --surface-color: #1c1b1f;
   --on-primary-color: #ffffff;
   --on-secondary-color: #ffffff;
@@ -30,6 +38,8 @@ body.night-mode {
   --even-row-color: #343034;
   --odd-row-color: #1c1b1f;
 }
+
+/* Global Reset & Layout */
 
 * {
   margin: 0;
@@ -58,6 +68,8 @@ body {
   padding: 24px;
 }
 
+/* Headings */
+
 h1,
 h2 {
   color: var(--primary-color);
@@ -65,10 +77,19 @@ h2 {
   text-align: center;
 }
 
-body.night-mode h1,
+/* Force <h1> title to white in dark mode */
+
+body.night-mode h1 {
+  color: #ffffff;
+}
+
+/* Force <h2> headers (Tasks and Completed Tasks) to white in dark mode */
+
 body.night-mode h2 {
   color: #ffffff;
 }
+
+/* Form Styles */
 
 .form {
   display: flex;
@@ -85,6 +106,8 @@ body.night-mode h2 {
   font-size: 16px;
   background-color: var(--surface-color);
   color: var(--on-surface-color);
+  width: 100%;
+  /* Ensure inputs take full width */
 }
 
 .form button {
@@ -96,12 +119,15 @@ body.night-mode h2 {
   font-size: 16px;
   cursor: pointer;
   transition: background-color 0.3s;
+  /* Add drop shadow under the Add Task button */
   box-shadow: var(--shadow);
 }
 
 .form button:hover {
   background-color: var(--primary-hover-color);
 }
+
+/* Search Bar */
 
 .search-bar {
   width: 100%;
@@ -115,6 +141,8 @@ body.night-mode h2 {
   box-shadow: var(--shadow);
 }
 
+/* Table Container */
+
 .table-container {
   overflow-x: auto;
   margin-bottom: 16px;
@@ -122,12 +150,15 @@ body.night-mode h2 {
   box-shadow: var(--table-shadow);
 }
 
+/* Table Styles */
+
 table {
   width: 100%;
-  border-collapse: separate;
+  border-collapse: collapse;
   border-spacing: 0;
   background-color: var(--surface-color);
   table-layout: auto;
+  /* Allow cells to adjust dynamically to content */
   transition: background-color 0.4s ease, color 0.4s ease;
 }
 
@@ -143,6 +174,7 @@ thead th {
 
 thead th:nth-child(4) {
   min-width: 100px;
+  /* Widen the Status column */
 }
 
 tbody td {
@@ -165,20 +197,28 @@ tbody tr.odd-row {
   background-color: var(--odd-row-color);
 }
 
+/* Hover effect: in day mode use Material Blue, in dark mode use the secondary color */
+
 body:not(.night-mode) tbody tr:hover {
   background-color: #2196f3;
+  /* Material Blue hover in day mode */
   color: var(--on-primary-color);
 }
 
 tbody tr:hover {
+  /* For dark mode, this rule remains (when body.night-mode is active) */
   background-color: var(--secondary-color);
   color: var(--on-secondary-color);
 }
+
+/* Center status cell content */
 
 .status-cell {
   text-align: center;
   vertical-align: middle;
 }
+
+/* Sort Icon */
 
 .sort-icon {
   margin-left: 4px;
@@ -186,6 +226,8 @@ tbody tr:hover {
   color: var(--on-primary-color);
   transition: color 0.4s ease;
 }
+
+/* Action Buttons */
 
 button.complete,
 button.delete {
@@ -216,6 +258,8 @@ button.delete:hover {
   background-color: #a91818;
 }
 
+/* Pagination */
+
 .pagination {
   display: flex;
   justify-content: center;
@@ -238,6 +282,8 @@ button.delete:hover {
   color: var(--on-primary-color);
 }
 
+/* Night Mode Toggle */
+
 .night-mode-toggle {
   position: fixed;
   bottom: 20px;
@@ -256,14 +302,20 @@ button.delete:hover {
   transition: background-color 0.3s, transform 0.3s;
 }
 
+/* Hover effect for the night mode toggle button */
+
 .night-mode-toggle:hover {
   background-color: #2196f3;
+  /* Blue hover in night mode */
 }
 
 body:not(.night-mode) .night-mode-toggle:hover {
   background-color: #383838;
+  /* Gray hover in day mode */
   transform: scale(1.1);
 }
+
+/* Dark Mode Specific Overrides */
 
 body.night-mode thead th {
   background-color: var(--primary-color);
@@ -277,4 +329,39 @@ body.night-mode .sort-icon {
 body.night-mode button.complete,
 body.night-mode button.delete {
   color: var(--on-primary-color);
+}
+
+/* Responsive Table Styles */
+
+@media (max-width: 600px) {
+  table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+
+  thead,
+  tbody,
+  thead th,
+  tbody td,
+  tbody tr {
+    display: block;
+    text-align: left;
+  }
+
+  thead th {
+    padding: 8px;
+    border-bottom: 1px solid #e0e0e0;
+  }
+
+  tbody td {
+    padding: 8px;
+    border-bottom: 1px solid #e0e0e0;
+  }
+
+  /* Responsive tweaks for date input */
+  input[type="date"] {
+    width: 100%;
+    max-width: 100%;
+  }
 }
