@@ -62,7 +62,7 @@ This application provides a user-friendly interface for creating, updating, and 
    - **Windows:**
 
      ```bash
-     venv\Scripts\activate
+     .\venv\Scripts\activate
      ```
 
    - **macOS/Linux:**
