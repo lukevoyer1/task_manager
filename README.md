@@ -1,4 +1,3 @@
-```markdown
 # Task Management App
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
@@ -50,13 +49,11 @@ This application provides a user-friendly interface for creating, updating, and 
    ```bash
    git clone [repository URL]
    cd [repository directory]
-   ```
 
 2. **Create a Virtual Environment:**
 
    ```bash
    python -m venv venv
-   ```
 
 3. **Activate the Virtual Environment:**
 
@@ -76,7 +73,6 @@ This application provides a user-friendly interface for creating, updating, and 
 
    ```bash
    pip install Flask Flask-SQLAlchemy
-   ```
 
 5. **Initialize the Database:**
 
@@ -84,7 +80,6 @@ This application provides a user-friendly interface for creating, updating, and 
 
    ```bash
    python app.py
-   ```
 
 6. **Run the Application:**
 
@@ -100,5 +95,4 @@ To run the unit tests and ensure the application’s reliability, execute:
 
 ```bash
 python -m unittest test_app.py
-```
 ```
