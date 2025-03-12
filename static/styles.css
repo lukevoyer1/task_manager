@@ -157,7 +157,7 @@ body.night-mode h2 {
 
 table {
   width: 100%;
-  border-collapse: separate;
+  border-collapse: collapse;
   border-spacing: 0;
   background-color: var(--surface-color);
   table-layout: auto;
