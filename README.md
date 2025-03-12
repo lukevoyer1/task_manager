@@ -6,7 +6,9 @@ A modern, intuitive web application for managing tasks, built with Flask and des
 
 ## Demo
 
+```
 [![TCheck out the live demo here!]][[Link](https://task-management-3qf1g80af-lukevoyer1-gmailcoms-projects.vercel.app/)]
+```
 
 ## Overview
 
