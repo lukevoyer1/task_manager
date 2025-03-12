@@ -1,4 +1,5 @@
-﻿# Task Management App
+```markdown
+# Task Management App
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
@@ -6,9 +7,9 @@ A modern, intuitive web application for managing tasks, built with Flask and des
 
 ## Demo
 
-Below is a link to a live demo of the application!
+Check out the live demo of the application:
 
-<a href="https://task-management-md6c5bvqr-lukevoyer1-gmailcoms-projects.vercel.app">Click here for a live demo!</a>
+<a href="https://task-management-beta-swart.vercel.app/">Click here for a live demo!</a>
 
 ## Overview
 
@@ -59,13 +60,13 @@ This application provides a user-friendly interface for creating, updating, and 
 
 3. **Activate the Virtual Environment:**
 
-   - On Windows:
+   - **Windows:**
 
      ```bash
      venv\Scripts\activate
      ```
 
-   - On macOS and Linux:
+   - **macOS/Linux:**
 
      ```bash
      source venv/bin/activate
@@ -79,7 +80,7 @@ This application provides a user-friendly interface for creating, updating, and 
 
 5. **Initialize the Database:**
 
-   Run the application to create the database tables:
+   Run the application (this step typically creates the necessary database tables):
 
    ```bash
    python app.py
@@ -91,12 +92,13 @@ This application provides a user-friendly interface for creating, updating, and 
    python app.py
    ```
 
-   Open your browser and navigate to `http://127.0.0.1:5000/` to view the app.
+   Then open your browser and navigate to `http://127.0.0.1:5000/` to view the app.
 
 ## Unit Testing
 
-Run the unit tests to ensure the application’s reliability:
+To run the unit tests and ensure the application’s reliability, execute:
 
 ```bash
 python -m unittest test_app.py
+```
 ```
