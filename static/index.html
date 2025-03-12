@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Task Management</title>
-    <link rel="stylesheet" href="/static/styles.css" />
+    <link rel="stylesheet" href="styles.css" />
     <link
       href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap"
       rel="stylesheet"
@@ -65,7 +65,7 @@
               <th class="sortable" onclick="sortTasks('date')">
                 Due Date <span class="sort-icon" id="dateSortIcon"></span>
               </th>
-              <th>Status</th>
+              <th>Actions</th>
             </tr>
           </thead>
           <tbody id="tasksList">
@@ -96,7 +96,7 @@
                 Due Date
                 <span class="sort-icon" id="completedDateSortIcon"></span>
               </th>
-              <th>Status</th>
+              <th>Actions</th>
             </tr>
           </thead>
           <tbody id="completedTasksList">
@@ -195,6 +195,8 @@
           // Reset the date picker to today
           const fp = document.querySelector("#taskDate")._flatpickr;
           fp.setDate(today);
+
+          alert("Task added successfully!");
         });
 
         // Set initial sort field
