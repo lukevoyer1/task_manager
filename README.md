@@ -6,9 +6,15 @@ A modern, intuitive web application for managing tasks, built with Flask and des
 
 ## Demo
 
-```
-[![TCheck out the live demo here!]][[Link](https://task-management-3qf1g80af-lukevoyer1-gmailcoms-projects.vercel.app/)]
-```
+[Button Hover]: https://img.shields.io/badge/Hover_Over_Me!-37a779?style=for-the-badge
+[Button Click]: https://img.shields.io/badge/Click_Me!-37a779?style=for-the-badge
+[Button Icon]: https://img.shields.io/badge/Installation-EF2D5E?style=for-the-badge&logoColor=white&logo=Files
+
+[Link]: # 'https://task-management-3qf1g80af-lukevoyer1-gmailcoms-projects.vercel.app/'
+
+Below is a link to a live demo of the application!
+
+[![Button Click]][Link] 
 
 ## Overview
 
