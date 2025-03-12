@@ -115,12 +115,20 @@ body.night-mode h2 {
 
 /* Fix for date input field width */
 input[type="date"] {
-  width: 100%;
-  min-width: 100%;
-  box-sizing: border-box;
+  width: 100% !important;
+  min-width: 100% !important;
+  box-sizing: border-box !important;
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
+  display: block !important;
+  flex: 1 1 100% !important;
+}
+
+/* Create a wrapper div for the date input if needed */
+.date-input-wrapper {
+  width: 100%;
+  display: block;
 }
 
 .form button {
@@ -373,8 +381,8 @@ body.night-mode button.delete {
 
   /* Responsive tweaks for date input */
   input[type="date"] {
-    width: 100%;
-    max-width: 100%;
+    width: 100% !important;
+    max-width: 100% !important;
   }
 
   /* Widen the Status column to improve layout*/
