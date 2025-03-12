@@ -313,20 +313,17 @@ body.night-mode .task-card h3 {
   color: #ffffff; /* Make the title white */
 }
 
+/* Completed Tasks Header Spacing */
+.completed-tasks-header {
+  margin-top: 40px; /* Adjust the spacing above "Completed Tasks" */
+}
+
 /* No results message */
 .no-results {
   text-align: center;
   padding: 20px;
-  color: var(--on-surface-color);
-}
-
-/* Responsive adjustments (optional) */
-@media (max-width: 768px) {
-  .task-card {
-    padding: 12px; /* Slightly reduce padding */
-  }
-
-  .task-card .actions {
-    flex-direction: column; /* Stack buttons on smaller screens */
-  }
+  color: var(--secondary-color);
+  font-family: "Roboto", sans-serif;
+  font-size: 18px;
+  font-weight: 500;
 }
