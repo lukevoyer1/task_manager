@@ -2,7 +2,10 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
     <title>Task Management</title>
     <link
       href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap"
@@ -13,10 +16,11 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
     />
-    <link rel="icon" type="image/svg+xml" href="/static/favicon.svg" />
   </head>
+
   <body>
     <div class="container">
+      <!-- Task Management Title -->
       <h1>Task Management</h1>
 
       <!-- Add Task Form -->
@@ -113,62 +117,81 @@
     </button>
 
     <script>
+      // Clear all input fields and search bar on initial load
+      window.addEventListener("load", () => {
+        document.getElementById("taskForm").reset(); // Clear form fields
+        document.getElementById("searchBar").value = ""; // Clear search bar
+        document.getElementById("title").focus(); // Focus on the Title field
+      });
+
       let tasks = [];
       let completedTasks = [];
+      // Default sort state: first column ("title") descending.
       const sortState = {
         taskList: { column: "title", isAscending: false },
         completedTasks: { column: "title", isAscending: false },
       };
 
-      // Clear all input fields and search bar on initial load
-      window.addEventListener("load", () => {
-        document.getElementById("taskForm").reset();
-        document.getElementById("searchBar").value = "";
-        document.getElementById("title").focus();
-      });
-
-      // Load tasks from local storage on page load
+      // Load tasks from local storage on page load.
       loadLocalTasks();
       renderTables();
 
-      // Add Task Form Submission
       document.getElementById("taskForm").addEventListener("submit", (e) => {
         e.preventDefault();
+
         const title = document.getElementById("title").value.trim();
         const description = document.getElementById("description").value.trim();
         const dueDate = document.getElementById("dueDate").value || null;
 
-        if (dueDate && new Date(dueDate) < new Date().setHours(0, 0, 0, 0)) {
-          alert("Due date cannot be set in the past.");
-          return;
+        // Validate due date: cannot be earlier than today's date.
+        if (dueDate) {
+          const today = new Date();
+          today.setHours(0, 0, 0, 0);
+          const taskDueDate = new Date(dueDate);
+          if (taskDueDate < today) {
+            alert("Due date cannot be set in the past.");
+            return;
+          }
         }
 
         fetch("/tasks", {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ title, description, due_date: dueDate }),
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            title,
+            description,
+            due_date: dueDate,
+          }),
         })
           .then((response) => response.json())
           .then((task) => {
             tasks.push(task);
             renderTables();
             saveLocalTasks();
+
+            // Clear input fields and focus on the Title field
             document.getElementById("taskForm").reset();
             document.getElementById("title").focus();
           })
           .catch((error) => alert(error.message));
       });
 
-      // Search Functionality
+      // Search functionality for active tasks.
       document
         .getElementById("searchBar")
         .addEventListener("input", function () {
           const searchTerm = this.value.trim().toLowerCase();
-          const filteredTasks = tasks.filter(
-            (task) =>
-              task.title.toLowerCase().includes(searchTerm) ||
-              task.description.toLowerCase().includes(searchTerm)
-          );
+          let filteredTasks = tasks;
+          if (searchTerm !== "") {
+            filteredTasks = tasks.filter((task) => {
+              return (
+                task.title.toLowerCase().includes(searchTerm) ||
+                task.description.toLowerCase().includes(searchTerm)
+              );
+            });
+          }
           renderTable("taskList", filteredTasks, "taskPagination");
           updateSortIcons(
             "taskList",
@@ -177,7 +200,6 @@
           );
         });
 
-      // Render Tables
       function renderTables() {
         renderTable("taskList", tasks, "taskPagination");
         renderTable("completedTasks", completedTasks, "completedPagination");
@@ -193,15 +215,15 @@
         );
       }
 
-      // Render Table
       function renderTable(listId, data, paginationId) {
         const tableBody = document.getElementById(listId);
         tableBody.innerHTML = "";
 
         if (data.length === 0) {
+          // If no results, show "No results found" row
           const noResultsRow = document.createElement("tr");
           const noResultsCell = document.createElement("td");
-          noResultsCell.colSpan = 5;
+          noResultsCell.colSpan = 5; // Span across all columns
           noResultsCell.textContent = "No results found";
           noResultsCell.className = "no-results";
           noResultsRow.appendChild(noResultsCell);
@@ -225,12 +247,18 @@
           dueDateCell.textContent = task.due_date || "No due date";
           row.appendChild(dueDateCell);
 
+          // Status cell with centered emoji and tooltip.
           const statusCell = document.createElement("td");
           statusCell.classList.add("status-cell");
-          const statusEmoji =
-            task.status.toLowerCase() === "complete" ? "✅" : "⏳";
-          const tooltip =
-            task.status.toLowerCase() === "complete" ? "Completed" : "Pending";
+          let statusEmoji = "";
+          let tooltip = "";
+          if (task.status.toLowerCase() === "complete") {
+            statusEmoji = "✅";
+            tooltip = "Completed";
+          } else {
+            statusEmoji = "⏳";
+            tooltip = "Pending";
+          }
           const statusSpan = document.createElement("span");
           statusSpan.textContent = statusEmoji;
           statusSpan.title = tooltip;
@@ -259,7 +287,6 @@
         });
       }
 
-      // Update Sort Icons
       function updateSortIcons(listId, sortedColumn, isAscending) {
         const table = document.getElementById(listId).closest("table");
         const headers = table.querySelectorAll("thead th");
@@ -272,24 +299,21 @@
         });
       }
 
-      // Sort Table
       function sortTable(listId, column) {
         const state = sortState[listId];
         const data = listId === "taskList" ? tasks : completedTasks;
-
         if (state.column === column) {
           state.isAscending = !state.isAscending;
         } else {
           state.column = column;
+          // When changing columns, default to descending
           state.isAscending = false;
         }
-
         data.sort((a, b) => {
           if (a[column] < b[column]) return state.isAscending ? -1 : 1;
           if (a[column] > b[column]) return state.isAscending ? 1 : -1;
           return 0;
         });
-
         renderTable(
           listId,
           data,
@@ -299,11 +323,12 @@
         saveLocalTasks();
       }
 
-      // Complete Task
       function completeTask(taskId) {
         fetch(`/tasks/${taskId}`, {
           method: "PUT",
-          headers: { "Content-Type": "application/json" },
+          headers: {
+            "Content-Type": "application/json",
+          },
           body: JSON.stringify({ status: "Complete" }),
         })
           .then((response) => response.json())
@@ -316,7 +341,6 @@
           .catch((error) => alert(error.message));
       }
 
-      // Delete Task
       function deleteTask(taskId) {
         fetch(`/tasks/${taskId}`, {
           method: "DELETE",
@@ -333,12 +357,16 @@
           .catch((error) => alert(error.message));
       }
 
-      // Local Storage Functions
+      // Local storage functions.
       function loadLocalTasks() {
         const storedTasks = localStorage.getItem("tasks");
         const storedCompleted = localStorage.getItem("completedTasks");
-        if (storedTasks) tasks = JSON.parse(storedTasks);
-        if (storedCompleted) completedTasks = JSON.parse(storedCompleted);
+        if (storedTasks) {
+          tasks = JSON.parse(storedTasks);
+        }
+        if (storedCompleted) {
+          completedTasks = JSON.parse(storedCompleted);
+        }
       }
 
       function saveLocalTasks() {
@@ -346,7 +374,6 @@
         localStorage.setItem("completedTasks", JSON.stringify(completedTasks));
       }
 
-      // Night Mode Toggle
       const nightModeToggle = document.getElementById("nightModeToggle");
       const nightModeIcon = nightModeToggle.querySelector("i");
       const isNightMode = localStorage.getItem("nightMode") === "true";
