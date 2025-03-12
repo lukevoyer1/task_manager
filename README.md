@@ -15,7 +15,6 @@ Below is a link to a live demo of the application!
 This application provides a user-friendly interface for creating, updating, and tracking tasks. It features:
 
 - **Clean UI:** Material You-inspired design for a visually appealing experience.
-- **Dynamic Tables:** Interactive task lists with sorting, hover effects, and status indicators.
 - **Local Storage:** Tasks are persisted locally, ensuring data is preserved across sessions.
 - **Night Mode:** A toggle for switching between light and dark themes.
 - **Responsive Design:** Adapts seamlessly to various screen sizes.
@@ -25,8 +24,6 @@ This application provides a user-friendly interface for creating, updating, and 
 
 - **Add Tasks:** Easily create new tasks with titles, descriptions, and due dates.
 - **Search:** Quickly find tasks by title or description.
-- **Sortable Columns:** Organize tasks by title, description, due date, or status.
-- **Status Indicators:** Clear visual cues for task status (Pending, Completed).
 - **Complete/Delete Actions:** Mark tasks as complete or permanently remove them.
 - **Night Mode:** Switch between light and dark themes for comfortable viewing.
 - **Local Storage:** Tasks are automatically saved in your browser.
