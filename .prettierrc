@@ -1,0 +1,23 @@
+{
+  "overrides": [
+    {
+      "files": "*.html",
+      "options": {
+        "parser": "html"
+      }
+    },
+    {
+      "files": "*.py",
+      "options": {
+        "parser": "python",
+        "tabWidth": 4,
+        "useTabs": false,
+        "printWidth": 80,
+        "singleQuote": false,
+        "trailingComma": "none",
+        "bracketSpacing": true,
+        "arrowParens": "always"
+      }
+    }
+  ]
+}

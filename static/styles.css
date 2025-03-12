@@ -1,0 +1,280 @@
+:root {
+  --primary-color: #2196f3;
+  --primary-hover-color: #1976d2;
+  --secondary-color: #625b71;
+  --background-color: #f5f5f5;
+  --surface-color: #ffffff;
+  --on-primary-color: #ffffff;
+  --on-secondary-color: #ffffff;
+  --on-background-color: #1c1b1f;
+  --on-surface-color: #1c1b1f;
+  --error-color: #ba1a1a;
+  --success-color: #4caf50;
+  --border-radius: 16px;
+  --shadow: 0 4px 8px rgba(0, 0, 0, 0.12);
+  --table-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+  --even-row-color: #f2e7fe;
+  --odd-row-color: #ffffff;
+}
+
+body.night-mode {
+  --primary-color: #383838;
+  --primary-hover-color: #2196f3;
+  --secondary-color: #988b82;
+  --background-color: #242424;
+  --surface-color: #1c1b1f;
+  --on-primary-color: #ffffff;
+  --on-secondary-color: #ffffff;
+  --on-background-color: #e6e1e5;
+  --on-surface-color: #e6e1e5;
+  --even-row-color: #343034;
+  --odd-row-color: #1c1b1f;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Roboto", sans-serif;
+  background-color: var(--background-color);
+  color: var(--on-background-color);
+  padding: 20px;
+  transition: background-color 0.5s, color 0.5s;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+.container {
+  width: 100%;
+  max-width: 800px;
+  background-color: var(--surface-color);
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow);
+  padding: 24px;
+}
+
+h1,
+h2 {
+  color: var(--primary-color);
+  margin-bottom: 16px;
+  text-align: center;
+}
+
+body.night-mode h1,
+body.night-mode h2 {
+  color: #ffffff;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.form input,
+.form textarea {
+  padding: 12px;
+  border: 1px solid var(--secondary-color);
+  border-radius: var(--border-radius);
+  font-size: 16px;
+  background-color: var(--surface-color);
+  color: var(--on-surface-color);
+}
+
+.form button {
+  padding: 12px;
+  background-color: var(--primary-color);
+  color: var(--on-primary-color);
+  border: none;
+  border-radius: var(--border-radius);
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  box-shadow: var(--shadow);
+}
+
+.form button:hover {
+  background-color: var(--primary-hover-color);
+}
+
+.search-bar {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid var(--secondary-color);
+  border-radius: var(--border-radius);
+  font-size: 16px;
+  background-color: var(--surface-color);
+  color: var(--on-surface-color);
+  margin-bottom: 20px;
+  box-shadow: var(--shadow);
+}
+
+.table-container {
+  overflow-x: auto;
+  margin-bottom: 16px;
+  border-radius: var(--border-radius);
+  box-shadow: var(--table-shadow);
+}
+
+table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  background-color: var(--surface-color);
+  table-layout: auto;
+  transition: background-color 0.4s ease, color 0.4s ease;
+}
+
+thead th {
+  padding: 16px;
+  background-color: var(--primary-color);
+  color: var(--on-primary-color);
+  text-align: center;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.4s ease, color 0.4s ease;
+}
+
+thead th:nth-child(4) {
+  min-width: 100px;
+}
+
+tbody td {
+  padding: 16px;
+  border-bottom: 1px solid #e0e0e0;
+  color: var(--on-surface-color);
+  text-align: center;
+  transition: background-color 0.4s ease, color 0.4s ease;
+}
+
+tbody tr {
+  transition: background-color 0.4s ease, color 0.4s ease;
+}
+
+tbody tr.even-row {
+  background-color: var(--even-row-color);
+}
+
+tbody tr.odd-row {
+  background-color: var(--odd-row-color);
+}
+
+body:not(.night-mode) tbody tr:hover {
+  background-color: #2196f3;
+  color: var(--on-primary-color);
+}
+
+tbody tr:hover {
+  background-color: var(--secondary-color);
+  color: var(--on-secondary-color);
+}
+
+.status-cell {
+  text-align: center;
+  vertical-align: middle;
+}
+
+.sort-icon {
+  margin-left: 4px;
+  font-size: 14px;
+  color: var(--on-primary-color);
+  transition: color 0.4s ease;
+}
+
+button.complete,
+button.delete {
+  padding: 8px 12px;
+  border: none;
+  border-radius: var(--border-radius);
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  margin-right: 4px;
+}
+
+button.complete {
+  background-color: var(--success-color);
+  color: var(--on-primary-color);
+}
+
+button.complete:hover {
+  background-color: #43a047;
+}
+
+button.delete {
+  background-color: var(--error-color);
+  color: var(--on-primary-color);
+}
+
+button.delete:hover {
+  background-color: #a91818;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.pagination button {
+  padding: 8px 12px;
+  border: 1px solid var(--primary-color);
+  background-color: var(--surface-color);
+  color: var(--primary-color);
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.pagination button:hover {
+  background-color: var(--primary-color);
+  color: var(--on-primary-color);
+}
+
+.night-mode-toggle {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background-color: var(--primary-color);
+  color: var(--on-primary-color);
+  border: none;
+  border-radius: 50%;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: var(--shadow);
+  transition: background-color 0.3s, transform 0.3s;
+}
+
+.night-mode-toggle:hover {
+  background-color: #2196f3;
+}
+
+body:not(.night-mode) .night-mode-toggle:hover {
+  background-color: #383838;
+  transform: scale(1.1);
+}
+
+body.night-mode thead th {
+  background-color: var(--primary-color);
+  color: var(--on-primary-color);
+}
+
+body.night-mode .sort-icon {
+  color: var(--on-primary-color);
+}
+
+body.night-mode button.complete,
+body.night-mode button.delete {
+  color: var(--on-primary-color);
+}

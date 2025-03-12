@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Task Management</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/static/styles.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
+    <link rel="icon" type="image/svg+xml" href="/static/favicon.svg" />
+  </head>
+  <body>
+    <div class="container">
+      <h1>Task Management</h1>
+
+      <!-- Add Task Form -->
+      <form id="taskForm" class="form">
+        <input type="text" id="title" placeholder="Title" required />
+        <textarea id="description" placeholder="Description"></textarea>
+        <input type="date" id="dueDate" placeholder="YYYY-MM-DD" />
+        <button type="submit">Add Task</button>
+      </form>
+
+      <!-- Search Bar -->
+      <input
+        type="text"
+        id="searchBar"
+        placeholder="Search tasks..."
+        class="search-bar"
+      />
+
+      <!-- Tasks Table -->
+      <h2>Tasks</h2>
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th data-column="title" onclick="sortTable('taskList', 'title')">
+                Title <span class="sort-icon"></span>
+              </th>
+              <th
+                data-column="description"
+                onclick="sortTable('taskList', 'description')"
+              >
+                Description <span class="sort-icon"></span>
+              </th>
+              <th
+                data-column="due_date"
+                onclick="sortTable('taskList', 'due_date')"
+              >
+                Due Date <span class="sort-icon"></span>
+              </th>
+              <th
+                data-column="status"
+                onclick="sortTable('taskList', 'status')"
+              >
+                Status <span class="sort-icon"></span>
+              </th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="taskList"></tbody>
+        </table>
+      </div>
+
+      <!-- Completed Tasks Table -->
+      <h2>Completed Tasks</h2>
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th
+                data-column="title"
+                onclick="sortTable('completedTasks', 'title')"
+              >
+                Title <span class="sort-icon"></span>
+              </th>
+              <th
+                data-column="description"
+                onclick="sortTable('completedTasks', 'description')"
+              >
+                Description <span class="sort-icon"></span>
+              </th>
+              <th
+                data-column="due_date"
+                onclick="sortTable('completedTasks', 'due_date')"
+              >
+                Due Date <span class="sort-icon"></span>
+              </th>
+              <th
+                data-column="status"
+                onclick="sortTable('completedTasks', 'status')"
+              >
+                Status <span class="sort-icon"></span>
+              </th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="completedTasks"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Night Mode Toggle -->
+    <button id="nightModeToggle" class="night-mode-toggle">
+      <i class="fas fa-moon"></i>
+    </button>
+
+    <script>
+      let tasks = [];
+      let completedTasks = [];
+      const sortState = {
+        taskList: { column: "title", isAscending: false },
+        completedTasks: { column: "title", isAscending: false },
+      };
+
+      // Clear all input fields and search bar on initial load
+      window.addEventListener("load", () => {
+        document.getElementById("taskForm").reset();
+        document.getElementById("searchBar").value = "";
+        document.getElementById("title").focus();
+      });
+
+      // Load tasks from local storage on page load
+      loadLocalTasks();
+      renderTables();
+
+      // Add Task Form Submission
+      document.getElementById("taskForm").addEventListener("submit", (e) => {
+        e.preventDefault();
+        const title = document.getElementById("title").value.trim();
+        const description = document.getElementById("description").value.trim();
+        const dueDate = document.getElementById("dueDate").value || null;
+
+        if (dueDate && new Date(dueDate) < new Date().setHours(0, 0, 0, 0)) {
+          alert("Due date cannot be set in the past.");
+          return;
+        }
+
+        fetch("/tasks", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ title, description, due_date: dueDate }),
+        })
+          .then((response) => response.json())
+          .then((task) => {
+            tasks.push(task);
+            renderTables();
+            saveLocalTasks();
+            document.getElementById("taskForm").reset();
+            document.getElementById("title").focus();
+          })
+          .catch((error) => alert(error.message));
+      });
+
+      // Search Functionality
+      document
+        .getElementById("searchBar")
+        .addEventListener("input", function () {
+          const searchTerm = this.value.trim().toLowerCase();
+          const filteredTasks = tasks.filter(
+            (task) =>
+              task.title.toLowerCase().includes(searchTerm) ||
+              task.description.toLowerCase().includes(searchTerm)
+          );
+          renderTable("taskList", filteredTasks, "taskPagination");
+          updateSortIcons(
+            "taskList",
+            sortState.taskList.column,
+            sortState.taskList.isAscending
+          );
+        });
+
+      // Render Tables
+      function renderTables() {
+        renderTable("taskList", tasks, "taskPagination");
+        renderTable("completedTasks", completedTasks, "completedPagination");
+        updateSortIcons(
+          "taskList",
+          sortState.taskList.column,
+          sortState.taskList.isAscending
+        );
+        updateSortIcons(
+          "completedTasks",
+          sortState.completedTasks.column,
+          sortState.completedTasks.isAscending
+        );
+      }
+
+      // Render Table
+      function renderTable(listId, data, paginationId) {
+        const tableBody = document.getElementById(listId);
+        tableBody.innerHTML = "";
+
+        if (data.length === 0) {
+          const noResultsRow = document.createElement("tr");
+          const noResultsCell = document.createElement("td");
+          noResultsCell.colSpan = 5;
+          noResultsCell.textContent = "No results found";
+          noResultsCell.className = "no-results";
+          noResultsRow.appendChild(noResultsCell);
+          tableBody.appendChild(noResultsRow);
+          return;
+        }
+
+        data.forEach((task, index) => {
+          const row = document.createElement("tr");
+          row.className = index % 2 === 0 ? "even-row" : "odd-row";
+
+          const titleCell = document.createElement("td");
+          titleCell.textContent = task.title;
+          row.appendChild(titleCell);
+
+          const descriptionCell = document.createElement("td");
+          descriptionCell.textContent = task.description;
+          row.appendChild(descriptionCell);
+
+          const dueDateCell = document.createElement("td");
+          dueDateCell.textContent = task.due_date || "No due date";
+          row.appendChild(dueDateCell);
+
+          const statusCell = document.createElement("td");
+          statusCell.classList.add("status-cell");
+          const statusEmoji =
+            task.status.toLowerCase() === "complete" ? "✅" : "⏳";
+          const tooltip =
+            task.status.toLowerCase() === "complete" ? "Completed" : "Pending";
+          const statusSpan = document.createElement("span");
+          statusSpan.textContent = statusEmoji;
+          statusSpan.title = tooltip;
+          statusCell.appendChild(statusSpan);
+          row.appendChild(statusCell);
+
+          const actionsCell = document.createElement("td");
+          if (task.status.toLowerCase() !== "complete") {
+            const completeButton = document.createElement("button");
+            completeButton.textContent = "Complete";
+            completeButton.className = "complete";
+            completeButton.addEventListener("click", () =>
+              completeTask(task.id)
+            );
+            actionsCell.appendChild(completeButton);
+          }
+
+          const deleteButton = document.createElement("button");
+          deleteButton.textContent = "Delete";
+          deleteButton.className = "delete";
+          deleteButton.addEventListener("click", () => deleteTask(task.id));
+          actionsCell.appendChild(deleteButton);
+
+          row.appendChild(actionsCell);
+          tableBody.appendChild(row);
+        });
+      }
+
+      // Update Sort Icons
+      function updateSortIcons(listId, sortedColumn, isAscending) {
+        const table = document.getElementById(listId).closest("table");
+        const headers = table.querySelectorAll("thead th");
+        headers.forEach((th) => {
+          const col = th.getAttribute("data-column");
+          const span = th.querySelector(".sort-icon");
+          if (!span) return;
+          span.textContent =
+            col === sortedColumn ? (isAscending ? "▲" : "▼") : "";
+        });
+      }
+
+      // Sort Table
+      function sortTable(listId, column) {
+        const state = sortState[listId];
+        const data = listId === "taskList" ? tasks : completedTasks;
+
+        if (state.column === column) {
+          state.isAscending = !state.isAscending;
+        } else {
+          state.column = column;
+          state.isAscending = false;
+        }
+
+        data.sort((a, b) => {
+          if (a[column] < b[column]) return state.isAscending ? -1 : 1;
+          if (a[column] > b[column]) return state.isAscending ? 1 : -1;
+          return 0;
+        });
+
+        renderTable(
+          listId,
+          data,
+          listId === "taskList" ? "taskPagination" : "completedPagination"
+        );
+        updateSortIcons(listId, state.column, state.isAscending);
+        saveLocalTasks();
+      }
+
+      // Complete Task
+      function completeTask(taskId) {
+        fetch(`/tasks/${taskId}`, {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ status: "Complete" }),
+        })
+          .then((response) => response.json())
+          .then((updatedTask) => {
+            tasks = tasks.filter((task) => task.id !== taskId);
+            completedTasks.push(updatedTask);
+            renderTables();
+            saveLocalTasks();
+          })
+          .catch((error) => alert(error.message));
+      }
+
+      // Delete Task
+      function deleteTask(taskId) {
+        fetch(`/tasks/${taskId}`, {
+          method: "DELETE",
+        })
+          .then((response) => {
+            if (!response.ok) throw new Error("Failed to delete task.");
+            tasks = tasks.filter((task) => task.id !== taskId);
+            completedTasks = completedTasks.filter(
+              (task) => task.id !== taskId
+            );
+            renderTables();
+            saveLocalTasks();
+          })
+          .catch((error) => alert(error.message));
+      }
+
+      // Local Storage Functions
+      function loadLocalTasks() {
+        const storedTasks = localStorage.getItem("tasks");
+        const storedCompleted = localStorage.getItem("completedTasks");
+        if (storedTasks) tasks = JSON.parse(storedTasks);
+        if (storedCompleted) completedTasks = JSON.parse(storedCompleted);
+      }
+
+      function saveLocalTasks() {
+        localStorage.setItem("tasks", JSON.stringify(tasks));
+        localStorage.setItem("completedTasks", JSON.stringify(completedTasks));
+      }
+
+      // Night Mode Toggle
+      const nightModeToggle = document.getElementById("nightModeToggle");
+      const nightModeIcon = nightModeToggle.querySelector("i");
+      const isNightMode = localStorage.getItem("nightMode") === "true";
+      if (isNightMode) {
+        document.body.classList.add("night-mode");
+        nightModeIcon.classList.replace("fa-moon", "fa-sun");
+      }
+      nightModeToggle.addEventListener("click", () => {
+        document.body.classList.toggle("night-mode");
+        if (document.body.classList.contains("night-mode")) {
+          nightModeIcon.classList.replace("fa-moon", "fa-sun");
+          localStorage.setItem("nightMode", "true");
+        } else {
+          nightModeIcon.classList.replace("fa-sun", "fa-moon");
+          localStorage.setItem("nightMode", "false");
+        }
+      });
+    </script>
+  </body>
+</html>
