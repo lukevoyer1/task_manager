@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Task Management</title>
-    <link rel="stylesheet" href="/static/styles.css" />
+    <link rel="stylesheet" href="styles.css" />
     <link
       href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap"
       rel="stylesheet"
@@ -51,60 +51,13 @@
       />
 
       <h2>Tasks</h2>
-      <div class="table-container">
-        <table id="tasksTable">
-          <thead>
-            <tr>
-              <th class="sortable" onclick="sortTasks('title')">
-                Title <span class="sort-icon" id="titleSortIcon"></span>
-              </th>
-              <th class="sortable" onclick="sortTasks('description')">
-                Description
-                <span class="sort-icon" id="descriptionSortIcon"></span>
-              </th>
-              <th class="sortable" onclick="sortTasks('date')">
-                Due Date <span class="sort-icon" id="dateSortIcon"></span>
-              </th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody id="tasksList">
-            <tr class="no-results">
-              <td colspan="4">No results found</td>
-            </tr>
-          </tbody>
-        </table>
+      <div class="task-list" id="tasksList">
+        <div class="no-results">No results found</div>
       </div>
 
       <h2>Completed Tasks</h2>
-      <div class="table-container">
-        <table id="completedTasksTable">
-          <thead>
-            <tr>
-              <th class="sortable" onclick="sortCompletedTasks('title')">
-                Title
-                <span class="sort-icon" id="completedTitleSortIcon"></span>
-              </th>
-              <th class="sortable" onclick="sortCompletedTasks('description')">
-                Description
-                <span
-                  class="sort-icon"
-                  id="completedDescriptionSortIcon"
-                ></span>
-              </th>
-              <th class="sortable" onclick="sortCompletedTasks('date')">
-                Due Date
-                <span class="sort-icon" id="completedDateSortIcon"></span>
-              </th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody id="completedTasksList">
-            <tr class="no-results">
-              <td colspan="4">No results found</td>
-            </tr>
-          </tbody>
-        </table>
+      <div class="task-list" id="completedTasksList">
+        <div class="no-results">No results found</div>
       </div>
     </div>
 
@@ -205,165 +158,75 @@
           // Reset the date picker to today
           const fp = document.querySelector("#taskDate")._flatpickr;
           fp.setDate(today);
-
-          // Alert is gone
-          // alert('Task added successfully!');
         });
-
-        // Set initial sort field
-        sortField = "title";
-        sortDirection = "desc";
-        completedSortField = "title";
-        completedSortDirection = "desc";
 
         // Initial render
         renderTasks();
-        updateSortIcons();
       });
 
-      // Render tasks to the tables
+      // Render tasks to the lists
       function renderTasks() {
         const tasksList = document.getElementById("tasksList");
         const completedTasksList =
           document.getElementById("completedTasksList");
 
-        // Sort tasks
-        const sortedTasks = [...tasks].sort((a, b) => {
-          if (sortField === "title") {
-            return sortDirection === "asc"
-              ? a.title.localeCompare(b.title)
-              : b.title.localeCompare(a.title);
-          } else if (sortField === "description") {
-            return sortDirection === "asc"
-              ? a.description.localeCompare(b.description)
-              : b.description.localeCompare(a.description);
-          } else if (sortField === "date") {
-            return sortDirection === "asc" ? a.date - b.date : b.date - a.date;
-          }
-          return 0;
-        });
-
-        const sortedCompletedTasks = [...completedTasks].sort((a, b) => {
-          if (completedSortField === "title") {
-            return completedSortDirection === "asc"
-              ? a.title.localeCompare(b.title)
-              : b.title.localeCompare(a.title);
-          } else if (completedSortField === "description") {
-            return completedSortDirection === "asc"
-              ? a.description.localeCompare(b.description)
-              : b.description.localeCompare(a.description);
-          } else if (completedSortField === "date") {
-            return completedSortDirection === "asc"
-              ? a.date - b.date
-              : b.date - a.date;
-          }
-          return 0;
-        });
-
         // Filter tasks based on search
         const searchTerm = document
           .getElementById("searchInput")
           .value.toLowerCase();
-        const filteredTasks = sortedTasks.filter(
+        const filteredTasks = tasks.filter(
           (task) =>
             task.title.toLowerCase().includes(searchTerm) ||
             task.description.toLowerCase().includes(searchTerm)
         );
 
-        const filteredCompletedTasks = sortedCompletedTasks.filter(
+        const filteredCompletedTasks = completedTasks.filter(
           (task) =>
             task.title.toLowerCase().includes(searchTerm) ||
             task.description.toLowerCase().includes(searchTerm)
         );
 
-        // Render active tasks
+        // Render active tasks as cards
         if (filteredTasks.length === 0) {
-          tasksList.innerHTML = `
-          <tr class="no-results">
-            <td colspan="4">No results found</td>
-          </tr>
-        `;
+          tasksList.innerHTML =
+            '<div class="no-results">No results found</div>';
         } else {
           tasksList.innerHTML = filteredTasks
             .map(
-              (task, index) => `
-          <tr class="${index % 2 === 0 ? "even-row" : "odd-row"}">
-            <td data-label="Title">${task.title}</td>
-            <td data-label="Description">${task.description}</td>
-            <td data-label="Due Date">${task.dateStr}</td>
-            <td data-label="Actions" class="status-cell">
-              <button class="complete" onclick="completeTask(${
-                task.id
-              })">Complete</button>
-              <button class="delete" onclick="deleteTask(${
-                task.id
-              })">Delete</button>
-            </td>
-          </tr>
+              (task) => `
+          <div class="task-card">
+            <h3>${task.title}</h3>
+            <p>${task.description}</p>
+            <p>Due Date: ${task.dateStr}</p>
+            <div class="actions">
+              <button class="complete" onclick="completeTask(${task.id})">Complete</button>
+              <button class="delete" onclick="deleteTask(${task.id})">Delete</button>
+            </div>
+          </div>
         `
             )
             .join("");
         }
 
-        // Render completed tasks
+        // Render completed tasks as cards
         if (filteredCompletedTasks.length === 0) {
-          completedTasksList.innerHTML = `
-          <tr class="no-results">
-            <td colspan="4">No results found</td>
-          </tr>
-        `;
+          completedTasksList.innerHTML =
+            '<div class="no-results">No results found</div>';
         } else {
           completedTasksList.innerHTML = filteredCompletedTasks
             .map(
-              (task, index) => `
-          <tr class="${index % 2 === 0 ? "even-row" : "odd-row"}">
-            <td data-label="Title">${task.title}</td>
-            <td data-label="Description">${task.description}</td>
-            <td data-label="Due Date">${task.dateStr}</td>
-            <td data-label="Actions" class="status-cell">
-              <button class="delete" onclick="deleteCompletedTask(${
-                task.id
-              })">Delete</button>
-            </td>
-          </tr>
+              (task) => `
+          <div class="task-card completed">
+            <h3>${task.title}</h3>
+            <p>${task.description}</p>
+            <p>Due Date: ${task.dateStr}</p>
+            <div class="actions">
+              <button class="delete" onclick="deleteCompletedTask(${task.id})">Delete</button>
+            </div>
+          </div>
         `
             )
             .join("");
-        }
-
-        // Update sort icons
-        updateSortIcons();
-      }
-
-      // Update sort icons based on current sort state
-      function updateSortIcons() {
-        // Clear all icons first
-        document.querySelectorAll(".sort-icon").forEach((icon) => {
-          icon.textContent = "";
-        });
-
-        // Set active icons for tasks table
-        if (sortField === "title") {
-          const icon = document.getElementById("titleSortIcon");
-          icon.textContent = sortDirection === "asc" ? "▲" : "▼";
-        } else if (sortField === "description") {
-          const icon = document.getElementById("descriptionSortIcon");
-          icon.textContent = sortDirection === "asc" ? "▲" : "▼";
-        } else if (sortField === "date") {
-          const icon = document.getElementById("dateSortIcon");
-          icon.textContent = sortDirection === "asc" ? "▲" : "▼";
-        }
-
-        // Set active icons for completed tasks table
-        if (completedSortField === "title") {
-          const icon = document.getElementById("completedTitleSortIcon");
-          icon.textContent = completedSortDirection === "asc" ? "▲" : "▼";
-        } else if (completedSortField === "description") {
-          const icon = document.getElementById("completedDescriptionSortIcon");
-          icon.textContent = completedSortDirection === "asc" ? "▲" : "▼";
-        } else if (completedSortField === "date") {
-          const icon = document.getElementById("completedDateSortIcon");
-          icon.textContent = completedSortDirection === "asc" ? "▲" : "▼";
         }
       }
 
@@ -396,28 +259,6 @@
           saveTasks();
           renderTasks();
         }
-      }
-
-      // Sorting functionality
-      function sortTasks(field) {
-        if (sortField === field) {
-          sortDirection = sortDirection === "asc" ? "desc" : "asc";
-        } else {
-          sortField = field;
-          sortDirection = "asc";
-        }
-        renderTasks();
-      }
-
-      function sortCompletedTasks(field) {
-        if (completedSortField === field) {
-          completedSortDirection =
-            completedSortDirection === "asc" ? "desc" : "asc";
-        } else {
-          completedSortField = field;
-          completedSortDirection = "asc";
-        }
-        renderTasks();
       }
 
       // Filter tasks based on search

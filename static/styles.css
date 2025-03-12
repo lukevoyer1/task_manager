@@ -236,255 +236,97 @@ body.night-mode .flatpickr-day.notAllowed {
   box-shadow: var(--shadow);
 }
 
-/* Table Container */
-
-.table-container {
-  overflow-x: auto;
-  margin-bottom: 16px;
-  border-radius: var(--border-radius);
-  box-shadow: var(--table-shadow);
+/* Task List Container */
+.task-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 }
 
-/* Table Styles */
-
-table {
-  width: 100%;
-  border-collapse: collapse;
-  border-spacing: 0;
+/* Task Card Styles */
+.task-card {
   background-color: var(--surface-color);
-  table-layout: auto;
-  /* Allow cells to adjust dynamically to content */
-  transition: background-color 0.4s ease, color 0.4s ease;
-}
-
-thead th {
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow);
   padding: 16px;
-  background-color: var(--primary-color);
-  color: var(--on-primary-color);
-  text-align: center;
-  font-weight: 500;
-  transition: background-color 0.4s ease, color 0.4s ease;
+  transition: background-color 0.3s, color 0.3s;
 }
 
-/* Make sortable headers look clickable */
-th.sortable {
-  cursor: pointer;
-  position: relative;
-  user-select: none;
+body.night-mode .task-card {
+  transition: background-color 0.3s, color 0.3s;
 }
 
-th.sortable:hover {
-  background-color: var(--primary-hover-color);
+.task-card h3 {
+  color: var(--primary-color);
+  margin-bottom: 8px;
 }
 
-thead th:nth-child(4) {
-  min-width: 120px;
-  /* Widen the Status column */
-}
-
-tbody td {
-  padding: 16px;
-  border-bottom: 1px solid #e0e0e0;
+.task-card p {
   color: var(--on-surface-color);
-  text-align: center;
-  transition: background-color 0.4s ease, color 0.4s ease;
+  margin-bottom: 8px;
 }
 
-tbody tr {
-  transition: background-color 0.4s ease, color 0.4s ease;
+.task-card .actions {
+  display: flex;
+  gap: 8px;
 }
 
-tbody tr.even-row {
-  background-color: var(--even-row-color);
-}
-
-tbody tr.odd-row {
-  background-color: var(--odd-row-color);
-}
-
-/* Hover effect: in day mode use Material Blue, in dark mode use the secondary color */
-
-body:not(.night-mode) tbody tr:hover {
-  background-color: #2196f3;
-  /* Material Blue hover in day mode */
-  color: var(--on-primary-color);
-}
-
-tbody tr:hover {
-  /* For dark mode, this rule remains (when body.night-mode is active) */
-  background-color: var(--secondary-color);
-  color: var(--on-secondary-color);
-}
-
-/* Center status cell content */
-
-.status-cell {
-  text-align: center;
-  vertical-align: middle;
-}
-
-/* Sort Icon */
-
-.sort-icon {
-  margin-left: 4px;
-  font-size: 14px;
-  color: var(--on-primary-color);
-  transition: color 0.4s ease;
-  display: inline-block;
-  width: 14px;
-  text-align: center;
-}
-
-.sort-icon.active-sort {
-  font-weight: bold;
-}
-
-/* Action Buttons */
-
-button.complete,
-button.delete {
+.task-card button {
   padding: 8px 12px;
   border: none;
   border-radius: var(--border-radius);
   font-weight: 500;
   cursor: pointer;
   transition: background-color 0.3s;
-  margin-right: 4px;
 }
 
-button.complete {
+.task-card .complete {
   background-color: var(--success-color);
   color: var(--on-primary-color);
 }
 
-button.complete:hover {
+.task-card .complete:hover {
   background-color: #43a047;
 }
 
-button.delete {
+.task-card .delete {
   background-color: var(--error-color);
   color: var(--on-primary-color);
 }
 
-button.delete:hover {
+.task-card .delete:hover {
   background-color: #a91818;
 }
 
-/* Pagination */
-
-.pagination {
-  display: flex;
-  justify-content: center;
-  gap: 8px;
-  margin-top: 12px;
+.task-card.completed {
+  opacity: 0.7;
 }
 
-.pagination button {
-  padding: 8px 12px;
-  border: 1px solid var(--primary-color);
+/* Night Mode Specific Styles for Task Cards */
+body.night-mode .task-card {
   background-color: var(--surface-color);
-  color: var(--primary-color);
-  border-radius: var(--border-radius);
-  cursor: pointer;
-  transition: background-color 0.3s, color 0.3s;
+  color: var(--on-surface-color);
+  box-shadow: var(--shadow); /* Keep the shadow */
 }
 
-.pagination button:hover {
-  background-color: var(--primary-color);
-  color: var(--on-primary-color);
-}
-
-/* Night Mode Toggle */
-
-.night-mode-toggle {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  background-color: var(--primary-color);
-  color: var(--on-primary-color);
-  border: none;
-  border-radius: 50%;
-  width: 48px;
-  height: 48px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  box-shadow: var(--shadow);
-  transition: background-color 0.3s, transform 0.3s;
-}
-
-/* Hover effect for the night mode toggle button */
-
-.night-mode-toggle:hover {
-  background-color: var(--primary-hover-color);
-  /* use --primary-hover-color here so we can control the dark mode as well */
-}
-
-body:not(.night-mode) .night-mode-toggle:hover {
-  background-color: #383838;
-  transform: scale(1.1);
-}
-
-/* Dark Mode Specific Overrides */
-
-body.night-mode thead th {
-  background-color: var(--primary-color);
-  color: var(--on-primary-color);
-}
-
-body.night-mode .sort-icon {
-  color: var(--on-primary-color);
-}
-
-body.night-mode button.complete,
-body.night-mode button.delete {
-  color: var(--on-primary-color);
+body.night-mode .task-card h3 {
+  color: #ffffff; /* Make the title white */
 }
 
 /* No results message */
-.no-results td {
+.no-results {
   text-align: center;
   padding: 20px;
   color: var(--on-surface-color);
 }
 
-/* Responsive Table Styles */
-
+/* Responsive adjustments (optional) */
 @media (max-width: 768px) {
-  table {
-    display: block;
-    overflow-x: auto;
-    white-space: nowrap;
+  .task-card {
+    padding: 12px; /* Slightly reduce padding */
   }
 
-  thead {
-    display: table-header-group; /* Keep thead as a header group */
-  }
-
-  thead tr,
-  tbody tr,
-  thead th,
-  tbody td {
-    display: block; /* Make rows and cells block-level elements */
-    padding: 0.5em;
-    text-align: left;
-    border-bottom: 1px solid #ddd;
-  }
-
-  thead th {
-    border-bottom: 2px solid #ddd;
-  }
-
-  /* Add label to each cell showing the column header */
-  tbody td::before {
-    content: attr(data-label);
-    font-weight: bold;
-    display: block;
-  }
-
-  /* Last cell doesn't need a border */
-  tbody tr:last-child td {
-    border-bottom: none;
+  .task-card .actions {
+    flex-direction: column; /* Stack buttons on smaller screens */
   }
 }
