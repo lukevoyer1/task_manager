@@ -458,27 +458,33 @@ body.night-mode button.delete {
     white-space: nowrap;
   }
 
-  thead,
-  tbody,
+  thead {
+    display: table-header-group; /* Keep thead as a header group */
+  }
+
+  thead tr,
+  tbody tr,
   thead th,
-  tbody td,
-  tbody tr {
-    display: block;
+  tbody td {
+    display: block; /* Make rows and cells block-level elements */
+    padding: 0.5em;
     text-align: left;
+    border-bottom: 1px solid #ddd;
   }
 
   thead th {
-    padding: 8px;
-    border-bottom: 1px solid #e0e0e0;
+    border-bottom: 2px solid #ddd;
   }
 
-  tbody td {
-    padding: 8px;
-    border-bottom: 1px solid #e0e0e0;
+  /* Add label to each cell showing the column header */
+  tbody td::before {
+    content: attr(data-label);
+    font-weight: bold;
+    display: block;
   }
 
-  /* Widen the Status column to improve layout*/
-  thead th:nth-child(4) {
-    min-width: 120px;
+  /* Last cell doesn't need a border */
+  tbody tr:last-child td {
+    border-bottom: none;
   }
 }
