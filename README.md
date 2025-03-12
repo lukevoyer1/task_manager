@@ -49,11 +49,13 @@ This application provides a user-friendly interface for creating, updating, and 
    ```bash
    git clone [repository URL]
    cd [repository directory]
+   ```
 
 2. **Create a Virtual Environment:**
 
    ```bash
    python -m venv venv
+   ```
 
 3. **Activate the Virtual Environment:**
 
@@ -73,6 +75,7 @@ This application provides a user-friendly interface for creating, updating, and 
 
    ```bash
    pip install Flask Flask-SQLAlchemy
+   ```
 
 5. **Run the Application:**
 
