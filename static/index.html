@@ -112,12 +112,19 @@
 
     <script>
       // Task management functionality
-      let tasks = [];
-      let completedTasks = [];
+      let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+      let completedTasks =
+        JSON.parse(localStorage.getItem("completedTasks")) || [];
       let sortField = "title";
       let sortDirection = "desc";
       let completedSortField = "title";
       let completedSortDirection = "desc";
+
+      // Function to save tasks to local storage
+      function saveTasks() {
+        localStorage.setItem("tasks", JSON.stringify(tasks));
+        localStorage.setItem("completedTasks", JSON.stringify(completedTasks));
+      }
 
       // Initialize Flatpickr for reliable date input
       document.addEventListener("DOMContentLoaded", function () {
@@ -185,6 +192,9 @@
 
           // Add task to array
           tasks.push(newTask);
+
+          // Save tasks to local storage
+          saveTasks();
 
           // Update the UI
           renderTasks();
@@ -364,6 +374,7 @@
           task.completed = true;
           completedTasks.push(task);
           tasks.splice(taskIndex, 1);
+          saveTasks();
           renderTasks();
         }
       }
@@ -372,6 +383,7 @@
         const taskIndex = tasks.findIndex((task) => task.id === id);
         if (taskIndex !== -1) {
           tasks.splice(taskIndex, 1);
+          saveTasks();
           renderTasks();
         }
       }
@@ -380,6 +392,7 @@
         const taskIndex = completedTasks.findIndex((task) => task.id === id);
         if (taskIndex !== -1) {
           completedTasks.splice(taskIndex, 1);
+          saveTasks();
           renderTasks();
         }
       }
