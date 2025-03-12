@@ -143,13 +143,66 @@ body.night-mode .flatpickr-calendar {
   border-color: var(--secondary-color);
 }
 
-body.night-mode .flatpickr-day {
-  color: var(--on-surface-color);
+/* Make month and year text white in dark mode */
+body.night-mode .flatpickr-month,
+body.night-mode .flatpickr-current-month,
+body.night-mode .flatpickr-monthDropdown-months,
+body.night-mode .flatpickr-monthDropdown-month,
+body.night-mode .numInputWrapper span.arrowUp,
+body.night-mode .numInputWrapper span.arrowDown,
+body.night-mode .flatpickr-current-month .numInputWrapper span.arrowUp:after,
+body.night-mode .flatpickr-current-month .numInputWrapper span.arrowDown:after,
+body.night-mode .flatpickr-current-month .flatpickr-monthDropdown-months,
+body.night-mode .flatpickr-current-month input.cur-year {
+  color: #ffffff !important;
+  fill: #ffffff !important;
 }
 
-body.night-mode .flatpickr-day.selected {
+/* Make days of week white in dark mode */
+body.night-mode span.flatpickr-weekday {
+  color: #ffffff !important;
+}
+
+/* Make navigation arrows white in dark mode */
+body.night-mode .flatpickr-months .flatpickr-prev-month svg,
+body.night-mode .flatpickr-months .flatpickr-next-month svg {
+  fill: #ffffff !important;
+}
+
+body.night-mode .flatpickr-months .flatpickr-prev-month:hover svg,
+body.night-mode .flatpickr-months .flatpickr-next-month:hover svg {
+  fill: var(--primary-hover-color) !important;
+}
+
+/* Style the days in dark mode */
+body.night-mode .flatpickr-day {
+  color: #e6e1e5;
+  border-color: transparent;
+}
+
+body.night-mode .flatpickr-day.selected,
+body.night-mode .flatpickr-day.startRange,
+body.night-mode .flatpickr-day.endRange,
+body.night-mode .flatpickr-day.selected.inRange,
+body.night-mode .flatpickr-day.startRange.inRange,
+body.night-mode .flatpickr-day.endRange.inRange {
   background-color: var(--primary-color);
   color: var(--on-primary-color);
+  border-color: var(--primary-color);
+}
+
+body.night-mode .flatpickr-day:hover {
+  background-color: var(--secondary-color);
+  color: var(--on-secondary-color);
+  border-color: var(--secondary-color);
+}
+
+body.night-mode .flatpickr-day.flatpickr-disabled,
+body.night-mode .flatpickr-day.flatpickr-disabled:hover,
+body.night-mode .flatpickr-day.prevMonthDay,
+body.night-mode .flatpickr-day.nextMonthDay,
+body.night-mode .flatpickr-day.notAllowed {
+  color: rgba(230, 225, 229, 0.3);
 }
 
 .form button {
@@ -210,8 +263,18 @@ thead th {
   color: var(--on-primary-color);
   text-align: center;
   font-weight: 500;
-  cursor: pointer;
   transition: background-color 0.4s ease, color 0.4s ease;
+}
+
+/* Make sortable headers look clickable */
+th.sortable {
+  cursor: pointer;
+  position: relative;
+  user-select: none;
+}
+
+th.sortable:hover {
+  background-color: var(--primary-hover-color);
 }
 
 thead th:nth-child(4) {
@@ -267,6 +330,13 @@ tbody tr:hover {
   font-size: 14px;
   color: var(--on-primary-color);
   transition: color 0.4s ease;
+  display: inline-block;
+  width: 14px;
+  text-align: center;
+}
+
+.sort-icon.active-sort {
+  font-weight: bold;
 }
 
 /* Action Buttons */
@@ -370,6 +440,13 @@ body.night-mode .sort-icon {
 body.night-mode button.complete,
 body.night-mode button.delete {
   color: var(--on-primary-color);
+}
+
+/* No results message */
+.no-results td {
+  text-align: center;
+  padding: 20px;
+  color: var(--on-surface-color);
 }
 
 /* Responsive Table Styles */
