@@ -84,7 +84,32 @@ This application provides a user-friendly interface for creating, updating, and 
 
 ## Unit Testing
 
-To run the unit tests and ensure the application’s reliability, execute:
+1. Make sure you're in your project directory
+   
+   ```bash
+   cd task_manager
+   ```
+
+2. **Create a Virtual Environment:**
+
+   ```bash
+   python -m venv venv
+   ```
+3. **Activate the Virtual Environment:**
+
+   - **Windows:**
+
+     ```bash
+     venv\Scripts\activate
+     ```
+
+   - **macOS/Linux:**
+
+     ```bash
+     source venv/bin/activate
+     ```
+
+4. To run the unit tests and ensure the application’s reliability, execute:
 
 ```bash
 python -m unittest test_app.py
