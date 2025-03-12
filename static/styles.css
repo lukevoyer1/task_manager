@@ -113,6 +113,16 @@ body.night-mode h2 {
   /* Ensure inputs don't exceed their container */
 }
 
+/* Fix for date input field width */
+input[type="date"] {
+  width: 100%;
+  min-width: 100%;
+  box-sizing: border-box;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+
 .form button {
   padding: 12px;
   background-color: var(--primary-color);
