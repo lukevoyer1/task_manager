@@ -1,4 +1,4 @@
-﻿# Task Management App
+# Task Management App
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
@@ -6,16 +6,15 @@ A modern, intuitive web application for managing tasks, built with Flask and des
 
 ## Demo
 
-Below is a link to a live demo of the application!
+Check out the live demo of the application:
 
-<a href="https://task-management-3qf1g80af-lukevoyer1-gmailcoms-projects.vercel.app/">Click here for a live demo!</a>
+<a href="https://task-management-beta-swart.vercel.app/">Click here for a live demo!</a>
 
 ## Overview
 
 This application provides a user-friendly interface for creating, updating, and tracking tasks. It features:
 
 - **Clean UI:** Material You-inspired design for a visually appealing experience.
-- **Dynamic Tables:** Interactive task lists with sorting, hover effects, and status indicators.
 - **Local Storage:** Tasks are persisted locally, ensuring data is preserved across sessions.
 - **Night Mode:** A toggle for switching between light and dark themes.
 - **Responsive Design:** Adapts seamlessly to various screen sizes.
@@ -25,8 +24,6 @@ This application provides a user-friendly interface for creating, updating, and 
 
 - **Add Tasks:** Easily create new tasks with titles, descriptions, and due dates.
 - **Search:** Quickly find tasks by title or description.
-- **Sortable Columns:** Organize tasks by title, description, due date, or status.
-- **Status Indicators:** Clear visual cues for task status (Pending, Completed).
 - **Complete/Delete Actions:** Mark tasks as complete or permanently remove them.
 - **Night Mode:** Switch between light and dark themes for comfortable viewing.
 - **Local Storage:** Tasks are automatically saved in your browser.
@@ -62,13 +59,13 @@ This application provides a user-friendly interface for creating, updating, and 
 
 3. **Activate the Virtual Environment:**
 
-   - On Windows:
+   - **Windows:**
 
      ```bash
      venv\Scripts\activate
      ```
 
-   - On macOS and Linux:
+   - **macOS/Linux:**
 
      ```bash
      source venv/bin/activate
@@ -80,25 +77,42 @@ This application provides a user-friendly interface for creating, updating, and 
    pip install Flask Flask-SQLAlchemy
    ```
 
-5. **Initialize the Database:**
-
-   Run the application to create the database tables:
+5. **Run the Application:**
 
    ```bash
    python app.py
    ```
 
-6. **Run the Application:**
-
-   ```bash
-   python app.py
-   ```
-
-   Open your browser and navigate to `http://127.0.0.1:5000/` to view the app.
+   Then open your browser and navigate to `http://127.0.0.1:5000/` to view the app.
 
 ## Unit Testing
 
-Run the unit tests to ensure the application’s reliability:
+1. Make sure you're in your project directory
+   
+   ```bash
+   cd task_manager
+   ```
+
+2. **Create a Virtual Environment:**
+
+   ```bash
+   python -m venv venv
+   ```
+3. **Activate the Virtual Environment:**
+
+   - **Windows:**
+
+     ```bash
+     venv\Scripts\activate
+     ```
+
+   - **macOS/Linux:**
+
+     ```bash
+     source venv/bin/activate
+     ```
+
+4. To run the unit tests and ensure the application’s reliability, execute:
 
 ```bash
 python -m unittest test_app.py
